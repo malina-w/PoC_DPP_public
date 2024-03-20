@@ -1,0 +1,34 @@
+{
+    "@context": "dtmi:dtdl:context;2",
+    "@id": "dtmi:example:Component;1",
+    "@type": "Interface",
+    "displayName": "ComponentInterface",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "C_ID",
+        "schema": "integer"
+      },
+      {
+        "@type": "Property",
+        "name": "name",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "weight",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "material",
+        "schema": "string"
+      },
+      {
+        "@type": "Relationship",
+        "name": "belongsToBatch",
+        "target": "dtmi:example:Batch;1"
+      }
+    ]
+  }
+  

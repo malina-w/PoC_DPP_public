@@ -1,0 +1,44 @@
+{
+    "@context": ["dtmi:dtdl:context;2"],
+    "@id": "dtmi:example:manufacturing;1",
+    "@type": "Interface",
+    "displayName": "ManufacturingInterface",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "name",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "serialnumber",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "modelname",
+        "schema": "string"
+      },
+      {
+        "@type": "Component",
+        "name": "Product",
+        "schema": "./ProductInterface.json"
+      },
+      {
+        "@type": "Component",
+        "name": "Component",
+        "schema": "./ComponentInterface.json"
+      },
+      {
+        "@type": "Component",
+        "name": "Batch",
+        "schema": "./BatchInterface.json"
+      },
+      {
+        "@type": "Component",
+        "name": "Supplier",
+        "schema": "./SupplierInterface.json"
+      }
+    ]
+  }
+  

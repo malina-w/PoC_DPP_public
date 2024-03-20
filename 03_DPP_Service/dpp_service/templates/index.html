@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPP DEMO</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        #menuBar {
+            background-color: #4caf50;
+            overflow: hidden;
+        }
+
+        #menuBar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        #menuBar a:hover {
+            background-color: #45a049;
+            color: white;
+        }
+
+        #getDPP, #info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #subTabs {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .subTab {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        .subTab:hover {
+            background-color: #45a049;
+        }
+
+        .widget {
+            margin-top: 20px;
+            display: none;
+        }
+
+        #mainProductInfo, #materialBreakdown, #productHistory {
+            display: none;
+        }
+
+        #productInfo, #componentsTableContainer, #eventsTableContainer {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #productInfo th, #productInfo td, #componentsTable th, #componentsTable td, #eventsTable th, #eventsTable td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        #productInfo th, #componentsTable th, #eventsTable th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        form {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        label, input, button {
+            margin-bottom: 10px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 18px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Styles for Material Breakdown and Product History tables */
+        .tableContainer {
+            overflow-x: auto; /* Enable horizontal scrolling */
+            max-height: 300px; /* Set a max height for vertical scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            border: 2px solid #4caf50; /* Fancy border */
+            margin: 10px 0; /* Spacing for aesthetics */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add some shadow for depth */
+        }
+
+        .customTable {
+            width: 100%;
+            min-width: 600px; /* Ensure table is not too squished */
+            border-collapse: separate; /* Separate borders for sticky header */
+            border-spacing: 0; /* Remove space between cells */
+        }
+
+        .customTable thead th {
+            position: sticky;
+            top: 0; /* Stick to the top of the table container */
+            background-color: #90ee90; /* Light green background for header */
+            z-index: 1; /* Ensure header is above other rows */
+        }
+
+        .customTable th, .customTable td {
+            border: 1px solid #ddd; /* Style for individual cell borders */
+            padding: 8px; /* Padding for cell content */
+            text-align: left; /* Align text to the left */
+        }
+
+        .customTable th {
+            background-color: #4caf50; /* Header background */
+            color: white; /* Header text color */
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Digital Product Passport Demo</h1>
+
+        <!-- Menu Bar -->
+        <div id="menuBar">
+            <a href="#" onclick="showTab('info')">Info</a>
+            <a href="#" onclick="showTab('getDPP')">Get DPP</a>
+        </div>
+
+        <!-- Info Tab -->
+        <div id="info">
+            <h2>Welcome to the Digital Product Passport</h2>
+            <p>Go to Get DPP tab to access the passport of your product!</p>
+        </div>
+
+        <!-- Get DPP Tab -->
+        <div id="getDPP" style="display: none;">
+            <form id="apiForm">
+                <label for="productId">Enter Product Serialnumber:</label>
+                <input type="text" id="productId" name="productId" required>
+                <button type="button" id="requestButton">Get DPP</button>
+            </form>
+
+            <!-- Sub Tabs -->
+            <div id="subTabs">
+                <div class="subTab" onclick="showSubTab('mainProductInfo')">Main Product Info</div>
+                <div class="subTab" onclick="showSubTab('materialBreakdown')">Material Breakdown</div>
+                <div class="subTab" onclick="showSubTab('productHistory')">Product History</div>
+            </div>
+
+            <!-- Main Product Information Widget -->
+            <div id="mainProductInfo" class="widget">
+                <h2>Main Product Information</h2>
+                <table id="productInfo">
+                    <tr>
+                        <th>Serial Number</th>
+                        <td id="SerialNumber"></td>
+                    </tr>
+                    <tr>
+                        <th>Product Name</th>
+                        <td id="ProductName"></td>
+                    </tr>
+                    <tr>
+                        <th>Revision Level</th>
+                        <td id="RevisionLevel"></td>
+                    </tr>
+                    <tr>
+                        <th>Model Name</th>
+                        <td id="ProductType"></td>
+                    </tr>
+                    <tr>
+                        <th>SerialNumber Start</th>
+                        <td id="RangeStart"></td>
+                    </tr>
+                    <tr>
+                        <th>SerialNumber Ending</th>
+                        <td id="RangeEnd"></td>
+                    </tr>
+                    <tr>
+                        <th>Product Creation</th> <!-- New field -->
+                        <td id="AssemblyTime"></td> <!-- New field -->
+                    </tr>
+                    <tr>
+                        <th>Original Equipment Manufacturer</th>
+                        <td id="OEMName"></td>
+                    </tr>
+                    <tr>
+                        <th>OEM Address</th>
+                        <td id="OEMAddress"></td>
+                    </tr>
+                    <tr>
+                        <th>OEM Contact Information</th>
+                        <td id="OEMContactInfo"></td>
+                    </tr>
+                </table>
+            </div>
+        <!-- Material Breakdown Widget -->
+        <div id="materialBreakdown" class="widget">
+            <h2>Material Breakdown</h2>
+            <div class="tableContainer"> <!-- Wrapping div for scrolling -->
+                <table id="componentsTable" class="customTable"></table>
+            </div>
+        </div>
+
+        <!-- Product History Widget -->
+        <div id="productHistory" class="widget">
+            <h2>Product History</h2>
+            <div class="tableContainer"> <!-- Wrapping div for scrolling -->
+                <table id="eventsTable" class="customTable"></table>
+            </div>
+        </div>
+
+    <script>
+        function showTab(tabName) {
+            document.getElementById('getDPP').style.display = 'none';
+            document.getElementById('info').style.display = 'none';
+
+            document.getElementById(tabName).style.display = 'block';
+        }
+
+        function showSubTab(subTabName) {
+            document.getElementById('mainProductInfo').style.display = 'none';
+            document.getElementById('materialBreakdown').style.display = 'none';
+            document.getElementById('productHistory').style.display = 'none';
+
+            document.getElementById(subTabName).style.display = 'block';
+        }
+
+        document.getElementById('requestButton').addEventListener('click', function() {
+            const productId = document.getElementById('productId').value;
+            const mainProductInfo = document.getElementById('mainProductInfo');
+            const materialBreakdown = document.getElementById('materialBreakdown');
+            const productHistory = document.getElementById('productHistory');
+            const productInfoTable = document.getElementById('productInfo');
+            const componentsTable = document.getElementById('componentsTable');
+            const eventsTable = document.getElementById('eventsTable');
+
+            fetch('/api_request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId: productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display Main Product Information
+                document.getElementById('SerialNumber').textContent = data.Product.SerialNumber;
+                document.getElementById('ProductName').textContent = data.Product.ProductName;
+                document.getElementById('RevisionLevel').textContent = data.Product.RevisionLevel;
+                document.getElementById('ProductType').textContent = data.Product.ProductType; // New field
+                document.getElementById('RangeStart').textContent = data.Product.RangeStart;
+                document.getElementById('RangeEnd').textContent = data.Product.RangeEnd;
+                document.getElementById('AssemblyTime').textContent = data.Product.Assemblytime;
+                document.getElementById('OEMName').textContent = data.Product.OEMName;
+                document.getElementById('OEMAddress').textContent = data.Product.OEMAddress;
+                document.getElementById('OEMContactInfo').textContent = data.Product.OEMContactInfo;
+
+                // Display Components Table
+                componentsTable.innerHTML = ''; // Clear previous content
+                const headerRow = componentsTable.insertRow(0);
+                const headerCells = ['Component ID', 'Material Number', 'Component Name', 'Details', 'Weight', 'Batch Associated', 'Material Hierarchy', 'Origin of Materials', 'Revision Level', 'Date supplied / produced', 'OEM / Supplier', 'OEM / Supplier Address Information', 'OEM / Supplier Contact Information']; // Updated headers
+
+                headerCells.forEach((header, index) => {
+                    const cell = headerRow.insertCell(index);
+                    cell.textContent = header;
+                });
+
+                data.Components.forEach(component => {
+                    const row = componentsTable.insertRow(-1);
+                    const cells = [component.ComponentID, component.SourceMaterialNumber, component.Name, component.Description, component.AggregatedMaterialWeight, component.BatchID, component.ParentComponentID, component.MaterialOrigin, component.RevisionLevel, component.DateSupplied, component.SupplierOrOEMName , component.SupplierOrOEMName, component.SupplierOrOEMContactInfo]; // Updated data fields
+
+                    cells.forEach((cellValue, index) => {
+                        const cell = row.insertCell(index);
+                        cell.textContent = cellValue;
+                    });
+                });
+
+                // Display Events Table
+                eventsTable.innerHTML = ''; // Clear previous content
+                const eventsHeaderRow = eventsTable.insertRow(0);
+                const eventsHeaderCells = ['Event ID', 'Event Type', 'Time of Event', 'Details', 'Description']; // Updated headers
+
+                eventsHeaderCells.forEach((header, index) => {
+                    const cell = eventsHeaderRow.insertCell(index);
+                    cell.textContent = header;
+                });
+
+                data.Events.forEach(event => {
+                    const row = eventsTable.insertRow(-1);
+                    const cells = [event.EventID, event.EventType, event.Timestamp, event.Description, event.EventDescription]; // Updated data fields
+
+                    cells.forEach((cellValue, index) => {
+                        const cell = row.insertCell(index);
+                        cell.textContent = cellValue;
+                    });
+                });
+
+                // Show the product information and components table
+                mainProductInfo.style.display = 'block';
+                materialBreakdown.style.display = 'block';
+                productHistory.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('API request failed:', error);
+            });
+        });
+    </script>
+</body>
+</html>

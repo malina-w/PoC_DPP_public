@@ -1,0 +1,24 @@
+{
+    "@context": "dtmi:dtdl:context;2",
+    "@id": "dtmi:example:Batch;1",
+    "@type": "Interface",
+    "displayName": "BatchInterface",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "ID",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "Revisionlevel",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "Date",
+        "schema": "string"
+      }
+    ]
+  }
+  

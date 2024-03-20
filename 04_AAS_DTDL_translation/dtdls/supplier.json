@@ -1,0 +1,34 @@
+{
+    "@context": "dtmi:dtdl:context;2",
+    "@id": "dtmi:example:Supplier;1",
+    "@type": "Interface",
+    "displayName": "SupplierInterface",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "Name",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "location",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "ID",
+        "schema": "string"
+      },
+      {
+        "@type": "Relationship",
+        "name": "deliversComponents",
+        "target": "dtmi:example:Component;1"
+      },
+      {
+        "@type": "Relationship",
+        "name": "deliversBatch",
+        "target": "dtmi:example:Batch;1"
+      }
+    ]
+  }
+  
